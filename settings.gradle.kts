@@ -24,3 +24,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "AndroidInterviewPrepration"
 include(":app")
+include(":features")
+include(":features:interview")
+include(":features:interview:domain")
+include(":features:interview:data")
+include(":features:interview:ui")
