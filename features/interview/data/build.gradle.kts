@@ -15,4 +15,7 @@ dependencies {
     implementation(project(":features:interview:domain"))
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+    testImplementation(libs.androidx.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
 }

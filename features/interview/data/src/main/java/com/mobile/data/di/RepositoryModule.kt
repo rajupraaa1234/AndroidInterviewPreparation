@@ -13,9 +13,8 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class RepositoryModule {
+interface RepositoryModule {
+
     @Binds
-    abstract fun bindUsersRepository(
-        impl: UsersRepositoryImpl
-    ): UsersRepository
+    fun bindUsersRepository(impl: UsersRepositoryImpl): UsersRepository
 }

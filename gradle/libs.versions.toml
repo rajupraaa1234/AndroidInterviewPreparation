@@ -18,6 +18,8 @@ retrofit = "2.11.0"
 okhttp = "4.12.0"
 hilt = "2.59.2"
 ksp = "2.3.7"
+mockk = "1.13.17"
+coroutines-test = "1.10.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -44,6 +46,10 @@ compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
+
+#Unit Test
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines-test" }
 
 #Network-Layer Dependency
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
