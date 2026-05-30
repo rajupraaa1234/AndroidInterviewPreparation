@@ -12,6 +12,7 @@ android {
 
 dependencies {
     implementation(project(":network"))
+    implementation(project(":features:interview:domain"))
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 }

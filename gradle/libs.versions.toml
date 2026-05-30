@@ -43,6 +43,7 @@ compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+javax-inject = { module = "javax.inject:javax.inject", version = "1" }
 
 #Network-Layer Dependency
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }

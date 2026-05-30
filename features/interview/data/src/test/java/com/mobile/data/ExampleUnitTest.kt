@@ -1,4 +1,4 @@
-package com.interview.data
+package com.mobile.data
 
 import org.junit.Test
 
