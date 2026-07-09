@@ -1,3 +1,4 @@
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -19,6 +20,46 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    flavorDimensions += "environment"
+
+    productFlavors {
+
+        create("dev") {
+            dimension = "environment"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-DEV"
+
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"https://fake-json-api.mock.beeceptor.com/users/\""
+            )
+        }
+
+        create("qe") {
+            dimension = "environment"
+
+            applicationIdSuffix = ".qe"
+            versionNameSuffix = "-QE"
+
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"https://jsonplaceholder.typicode.com/todos/1/\""
+            )
+        }
+
+        create("prod") {
+            dimension = "environment"
+
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"https://fake-json-api.mock.beeceptor.com/users/\""
+            )
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -26,6 +67,27 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            isDebuggable = false
+            signingConfig = signingConfigs.getByName("debug")
+            buildConfigField(
+                "boolean",
+                "ENABLE_LOGS",
+                "false"
+            )
+        }
+
+        debug {
+            isDebuggable = true
+            buildConfigField(
+                "boolean",
+                "ENABLE_LOGS",
+                "true"
+            )
+        }
+
+        create("staging") {
+            initWith(getByName("debug"))
+            isDebuggable = true
         }
     }
     compileOptions {
@@ -35,6 +97,7 @@ android {
     buildFeatures {
         compose = true
     }
+    android.buildFeatures.buildConfig = true
 }
 
 dependencies {

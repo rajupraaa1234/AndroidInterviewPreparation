@@ -10,6 +10,7 @@ import com.interview.ui.composable.InterViewLayout
 import com.interview.ui.mvvm.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlin.getValue
 
 
 @AndroidEntryPoint
