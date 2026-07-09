@@ -21,9 +21,10 @@ class MainActivity : ComponentActivity() {
         viewModel.viewModelScope.launch {
             viewModel.getUser()
         }
+        val flavorNamee = getString(R.string.app_flavor_name)
         enableEdgeToEdge()
         setContent {
-            InterViewLayout(viewModel)
+            InterViewLayout(viewModel,flavorNamee)
         }
     }
 }

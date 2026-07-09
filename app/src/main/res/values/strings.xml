@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AndroidInterviewPrepration</string>
+    <string name="app_flavor_name">Main Build</string>
 </resources>

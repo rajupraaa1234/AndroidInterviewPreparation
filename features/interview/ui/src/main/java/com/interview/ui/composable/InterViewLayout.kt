@@ -22,7 +22,7 @@ import com.interview.ui.mvvm.UserViewModel
 import com.interview.ui.state.UserInfo
 
 @Composable
-fun InterViewLayout(viewModel: UserViewModel) {
+fun InterViewLayout(viewModel: UserViewModel, flavorNamee: String) {
     val screeState = viewModel.uiState.collectAsState()
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -31,7 +31,7 @@ fun InterViewLayout(viewModel: UserViewModel) {
     ) {
 
         Text(
-            text = "Build Variant -",
+            text = "Build Variant - $flavorNamee",
             style = TextStyle(textAlign = TextAlign.Center),
             modifier = Modifier
                 .padding(bottom = 20.dp, top = 20.dp)
