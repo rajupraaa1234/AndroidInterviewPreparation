@@ -8,6 +8,10 @@ android {
     namespace = "com.interview.data"
 
     compileSdk = 36
+
+    defaultConfig {
+        minSdk = 24
+    }
 }
 
 dependencies {

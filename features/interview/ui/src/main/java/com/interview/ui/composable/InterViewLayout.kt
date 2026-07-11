@@ -2,13 +2,16 @@ package com.interview.ui.composable
 
 import android.widget.ListView
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,16 +25,43 @@ import com.interview.ui.state.UserInfo
 @Composable
 fun InterViewLayout(viewModel: UserViewModel) {
     val screeState = viewModel.uiState.collectAsState()
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        LazyColumn {
-            items(screeState.value.userList) {
-                UserItem(it)
+
+    if(!screeState.value.hasInternetConnectivity){
+        AlertDialog(
+            onDismissRequest = {},
+            confirmButton = { },
+            title = {
+                Text("No Internet")
+            },
+            text = {
+                Text("Please check your internet connection.")
+            }
+        )
+    }
+    if (screeState.value.isLoading) {
+        LoadingScreen()
+    } else {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            LazyColumn {
+                items(screeState.value.userList) {
+                    UserItem(it)
+                }
             }
         }
+    }
+}
+
+@Composable
+fun LoadingScreen() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
     }
 }
 
