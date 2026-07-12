@@ -5,6 +5,7 @@ import com.interview.domain.model.Users
 import com.interview.domain.repository.UsersRepository
 import com.mobile.data.dto.UsersData
 import com.mobile.data.network.InterviewService
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 
@@ -12,11 +13,15 @@ class UsersRepositoryImpl @Inject constructor(
     private val apiService: InterviewService
 ) : UsersRepository {
     override suspend fun getUsers(): UserInfoResult {
-        val response = apiService.getUsers()
-        return if (response.isSuccessful) {
-            mapToUserResult(response.body())
-        } else {
-            UserInfoResult.Error
+        return try {
+            val response = apiService.getUsers()
+            if (response.isSuccessful) {
+                mapToUserResult(response.body())
+            } else {
+                UserInfoResult.Error
+            }
+        } catch (e: UnknownHostException) {
+            UserInfoResult.NoInternet
         }
     }
 

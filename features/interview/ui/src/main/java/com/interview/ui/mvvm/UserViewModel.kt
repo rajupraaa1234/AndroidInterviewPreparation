@@ -49,6 +49,10 @@ class UserViewModel @Inject constructor(
                         it.copy(userList = response)
                     }
                 }
+
+                UserInfoResult.NoInternet -> {
+                    _uiState.update { it.copy(isNoInternet = true) }
+                }
             }
         }
     }
