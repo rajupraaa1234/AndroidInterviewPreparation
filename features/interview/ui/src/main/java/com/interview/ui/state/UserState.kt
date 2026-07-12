@@ -3,7 +3,8 @@ package com.interview.ui.state
 data class UserState(
     val userList: List<UserInfo> = emptyList(),
     val isError: Boolean = false,
-    val isNoInternet: Boolean = false
+    val isNoInternet: Boolean = false,
+    val isLoading: Boolean = false,
 )
 
 data class UserInfo(

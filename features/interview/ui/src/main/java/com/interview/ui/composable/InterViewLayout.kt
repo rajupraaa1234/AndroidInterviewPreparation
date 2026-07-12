@@ -1,6 +1,7 @@
 package com.interview.ui.composable
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -21,12 +23,10 @@ import com.interview.ui.state.UserInfo
 @Composable
 fun InterViewLayout(viewModel: UserViewModel) {
     val screeState = viewModel.uiState.collectAsState()
-
     if (screeState.value.isNoInternet) {
         AlertDialog(
             onDismissRequest = { },
             confirmButton = { },
-
             title = {
                 Text("No Internet")
             },
@@ -35,7 +35,9 @@ fun InterViewLayout(viewModel: UserViewModel) {
                 Text("Please check your internet connection.")
             }
         )
-    }else{
+    } else if (screeState.value.isLoading) {
+        Loading()
+    } else {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -51,7 +53,7 @@ fun InterViewLayout(viewModel: UserViewModel) {
 }
 
 @Composable
-fun UserItem(
+private fun UserItem(
     user: UserInfo
 ) {
     Card(
@@ -65,5 +67,14 @@ fun UserItem(
             Text(text = user.name)
             Text(text = user.email)
         }
+    }
+}
+
+@Composable
+private fun Loading() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        CircularProgressIndicator(
+            modifier = Modifier.align(Alignment.Center)
+        )
     }
 }

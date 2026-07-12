@@ -1,7 +1,5 @@
 package com.interview.ui.mvvm
 
-import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.interview.domain.model.UserInfoResult
@@ -14,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.collections.copy
 
 @HiltViewModel
 class UserViewModel @Inject constructor(
@@ -25,35 +24,46 @@ class UserViewModel @Inject constructor(
         get() = _uiState
 
     fun getUser() {
+        setLoadingStatus(true)
         viewModelScope.launch {
             when (val result = getUserUseCase()) {
-                UserInfoResult.Error -> {
-                    Log.d("UserInfoResult", "error")
-                    _uiState.update { it.copy(isError = true) }
-                }
-
-                is UserInfoResult.Success -> {
-                    Log.d("UserInfoResult", "getUser: ${result}")
-                    val response = result.users.map {
-                        with(it) {
-                            UserInfo(
-                                name = name,
-                                company = company,
-                                username = username,
-                                email = email
-                            )
-                        }
-                    }
-
-                    _uiState.update {
-                        it.copy(userList = response)
-                    }
-                }
-
-                UserInfoResult.NoInternet -> {
-                    _uiState.update { it.copy(isNoInternet = true) }
-                }
+                UserInfoResult.Error -> onError()
+                is UserInfoResult.Success -> onSuccess(result)
+                UserInfoResult.NoInternet -> onConnectionFailed()
             }
         }
     }
+
+    private fun onSuccess(result: UserInfoResult.Success) {
+        val response = result.users.map {
+            with(it) {
+                UserInfo(
+                    name = name,
+                    company = company,
+                    username = username,
+                    email = email
+                )
+            }
+        }
+
+        _uiState.update {
+            it.copy(userList = response)
+        }
+        setLoadingStatus(false)
+    }
+
+    private fun onError() {
+        _uiState.update { it.copy(isError = true) }
+        setLoadingStatus(false)
+    }
+
+    private fun onConnectionFailed() {
+        _uiState.update { it.copy(isNoInternet = true) }
+        setLoadingStatus(false)
+    }
+
+    private fun setLoadingStatus(status: Boolean) {
+        _uiState.update { it.copy(isLoading = status) }
+    }
 }
+
