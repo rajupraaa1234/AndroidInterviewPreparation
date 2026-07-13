@@ -4,13 +4,14 @@ This project implements a multi-level caching mechanism to improve application p
 
 The repository follows the cache lookup order below:
 
-Memory Cache
-      │
-      ▼
-Room Database
-      │
-      ▼
-Remote API
+      Memory Cache
+            │
+            ▼
+      Room Database
+            │
+            ▼
+      Remote API
+
 
 When data is requested:
 
@@ -39,17 +40,17 @@ Injected using Hilt
 Cleared automatically when the application process is killed
 
 
-Repository
-      │
-      ▼
-Memory Cache
-      │
- ┌────┴────┐
- │         │
-Hit      Miss
- │         │
- ▼         ▼
-Return   Check Room
+      Repository
+            │
+            ▼
+      Memory Cache
+            │
+       ┌────┴────┐
+       │         │
+      Hit      Miss
+       │         │
+       ▼         ▼
+      Return   Check Room
 
 
 💾 Room Cache (Offline Support)
@@ -63,17 +64,17 @@ Reduces unnecessary API requests
 Acts as the second level of cache
 
 
-Repository
-      │
-      ▼
-Room Database
-      │
- ┌────┴────┐
- │         │
-Hit      Miss
- │         │
- ▼         ▼
-Return   Call API
+      Repository
+            │
+            ▼
+      Room Database
+            │
+       ┌────┴────┐
+       │         │
+      Hit      Miss
+       │         │
+       ▼         ▼
+      Return   Call API
 
 After a successful API response:
 
@@ -85,97 +86,97 @@ Updated data is returned to the UI.
 
 🔄 Complete Data Flow
 
-                ViewModel
-                    │
-                    ▼
-             UserRepository
-                    │
-        ┌───────────┼───────────┐
-        │           │           │
-        ▼           ▼           ▼
- Memory Cache    Room DB    Remote API
-        │           │           │
-        └───────────┼───────────┘
-                    │
-                    ▼
-              Domain Model
-                    │
-                    ▼
-                 UI State
+                      ViewModel
+                          │
+                          ▼
+                   UserRepository
+                          │
+              ┌───────────┼───────────┐
+              │           │           │
+              ▼           ▼           ▼
+       Memory Cache    Room DB    Remote API
+              │           │           │
+              └───────────┼───────────┘
+                          │
+                          ▼
+                    Domain Model
+                          │
+                          ▼
+                       UI State
 
                  📦 Data Transformation
 
 The project follows Clean Architecture by separating network, database, and domain models.
-
-Remote API
-      │
-      ▼
-UsersData (DTO)
-      │
-      ▼
-Mapper
-      │
-      ▼
-Users (Domain)
-      │
-      ├─────────────► UI
-      │
-      ▼
-Mapper
-      │
-      ▼
-UserEntity
-      │
-      ▼
-Room Database
+      
+      Remote API
+            │
+            ▼
+      UsersData (DTO)
+            │
+            ▼
+      Mapper
+            │
+            ▼
+      Users (Domain)
+            │
+            ├─────────────► UI
+            │
+            ▼
+      Mapper
+            │
+            ▼
+      UserEntity
+            │
+            ▼
+      Room Database
 
 When reading from Room:
 
-Room Database
-      │
-      ▼
-UserEntity
-      │
-      ▼
-Mapper
-      │
-      ▼
-Users (Domain)
-      │
-      ▼
-Repository
-
-⚙️ Repository Flow
-
-Request Data
-      │
-      ▼
-Check Memory Cache
-      │
- ┌────┴────┐
- │         │
-Hit      Miss
- │         │
- ▼         ▼
-Return   Check Room
-              │
-       ┌──────┴──────┐
-       │             │
-     Hit           Miss
-       │             │
-       ▼             ▼
-Memory Cache      Remote API
-Update                │
-       │              ▼
-       │        DTO → Domain
-       │              │
-       │              ▼
-       └────── Save Room
-                     │
-                     ▼
-             Save Memory Cache
-                     │
-                     ▼
-                 Return Data
+      Room Database
+            │
+            ▼
+      UserEntity
+            │
+            ▼
+      Mapper
+            │
+            ▼
+      Users (Domain)
+            │
+            ▼
+      Repository
+      
+      ⚙️ Repository Flow
+      
+      Request Data
+            │
+            ▼
+      Check Memory Cache
+            │
+       ┌────┴────┐
+       │         │
+      Hit      Miss
+       │         │
+       ▼         ▼
+      Return   Check Room
+                    │
+             ┌──────┴──────┐
+             │             │
+           Hit           Miss
+             │             │
+             ▼             ▼
+      Memory Cache      Remote API
+      Update                │
+             │              ▼
+             │        DTO → Domain
+             │              │
+             │              ▼
+             └────── Save Room
+                           │
+                           ▼
+                   Save Memory Cache
+                           │
+                           ▼
+                       Return Data
 
                  
