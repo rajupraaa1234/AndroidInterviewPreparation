@@ -1,4 +1,4 @@
-package com.mobile.data.datasource
+package com.mobile.data.local.datasource
 
 import com.interview.domain.model.Users
 

@@ -3,7 +3,7 @@ package com.mobile.data.repositoryImpl
 import com.interview.domain.model.UserInfoResult
 import com.interview.domain.model.Users
 import com.interview.domain.repository.UserRepositoryWithRoom
-import com.mobile.data.datasource.UserLocalDataSource
+import com.mobile.data.local.datasource.UserLocalDataSource
 import com.mobile.data.dto.UsersData
 import com.mobile.data.network.InterviewService
 import java.net.UnknownHostException
