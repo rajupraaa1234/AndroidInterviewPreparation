@@ -1,19 +1,19 @@
 package com.mobile.data.dto
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 
 data class UsersData(
-    @SerializedName("id") val id: Int,
-    @SerializedName("name") val name: String,
-    @SerializedName("company") val company: String,
-    @SerializedName("username") val username: String,
-    @SerializedName("email") val email: String,
-    @SerializedName("address") val address: String,
-    @SerializedName("zip") val zip: String,
-    @SerializedName("state") val state: String,
-    @SerializedName("country") val country: String,
-    @SerializedName("phone") val phone: String,
-    @SerializedName("photo") val photo: String
+    @SerialName("id") val id: Int,
+    @SerialName("name") val name: String,
+    @SerialName("company") val company: String,
+    @SerialName("username") val username: String,
+    @SerialName("email") val email: String,
+    @SerialName("address") val address: String,
+    @SerialName("zip") val zip: String,
+    @SerialName("state") val state: String,
+    @SerialName("country") val country: String,
+    @SerialName("phone") val phone: String,
+    @SerialName("photo") val photo: String
 )
 
 

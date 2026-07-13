@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -10,7 +12,12 @@ android {
 
 dependencies {
     api(libs.retrofit)
-    api(libs.retrofit.gson)
-    api(libs.okhttp)
-    api(libs.okhttp.logging)
+    implementation(libs.retrofit.gson)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    testImplementation(libs.androidx.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
 }
