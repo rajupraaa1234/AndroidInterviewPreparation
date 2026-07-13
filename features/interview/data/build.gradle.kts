@@ -22,4 +22,8 @@ dependencies {
     testImplementation(libs.mockk)
     implementation(libs.kotlinx.serialization.json)
     testImplementation(libs.coroutines.test)
+
+    ksp(libs.room.compiler)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
 }

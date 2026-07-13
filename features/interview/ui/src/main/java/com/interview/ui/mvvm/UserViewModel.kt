@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.interview.domain.model.UserInfoResult
 import com.interview.domain.usecase.GetUserUseCase
+import com.interview.domain.usecase.GetUserWithRoomCacheSupportUseCase
 import com.interview.ui.state.UserInfo
 import com.interview.ui.state.UserState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,8 @@ import kotlin.collections.copy
 
 @HiltViewModel
 class UserViewModel @Inject constructor(
-    private val getUserUseCase: GetUserUseCase
+    private val getUserUseCase: GetUserUseCase, // Implemented Cache (Not persist the data like - MemoryCache )
+    private val getUserWithRoomCacheSupportUseCase: GetUserWithRoomCacheSupportUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UserState())
@@ -27,7 +29,7 @@ class UserViewModel @Inject constructor(
     fun getUser() {
         setLoadingStatus(true)
         viewModelScope.launch {
-            when (val result = getUserUseCase()) {
+            when (val result = getUserWithRoomCacheSupportUseCase()) {
                 UserInfoResult.Error -> onError()
                 is UserInfoResult.Success -> onSuccess(result)
                 UserInfoResult.NoInternet -> onConnectionFailed()
@@ -37,8 +39,7 @@ class UserViewModel @Inject constructor(
 
     fun onItemClick() {
         viewModelScope.launch {
-            val result = getUserUseCase()
-            Log.d("UsersRepositoryImpl", "user data onItemClick: $result")
+            val result = getUserWithRoomCacheSupportUseCase()
         }
     }
 
