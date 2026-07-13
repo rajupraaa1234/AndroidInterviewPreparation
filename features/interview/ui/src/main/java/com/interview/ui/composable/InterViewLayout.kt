@@ -1,5 +1,6 @@
 package com.interview.ui.composable
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,7 +46,9 @@ fun InterViewLayout(viewModel: UserViewModel) {
         ) {
             LazyColumn {
                 items(screeState.value.userList) {
-                    UserItem(it)
+                    UserItem(it){
+                        viewModel.onItemClick()
+                    }
                 }
             }
         }
@@ -54,12 +57,16 @@ fun InterViewLayout(viewModel: UserViewModel) {
 
 @Composable
 private fun UserItem(
-    user: UserInfo
+    user: UserInfo,
+    onClick: ()-> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
+            .clickable {
+                onClick()
+            }
     ) {
         Column(
             modifier = Modifier.padding(16.dp)

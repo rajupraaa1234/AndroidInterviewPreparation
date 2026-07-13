@@ -1,5 +1,6 @@
 package com.interview.ui.mvvm
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.interview.domain.model.UserInfoResult
@@ -31,6 +32,13 @@ class UserViewModel @Inject constructor(
                 is UserInfoResult.Success -> onSuccess(result)
                 UserInfoResult.NoInternet -> onConnectionFailed()
             }
+        }
+    }
+
+    fun onItemClick() {
+        viewModelScope.launch {
+            val result = getUserUseCase()
+            Log.d("UsersRepositoryImpl", "user data onItemClick: $result")
         }
     }
 
