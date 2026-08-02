@@ -1,55 +1,52 @@
 package com.interview.ui.mvvm
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.interview.domain.model.UserInfoResult
-import com.interview.domain.usecase.GetUserUseCase
-import com.interview.ui.state.UserInfo
-import com.interview.ui.state.UserState
+import com.mobile.ui.model.getPerson
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UserViewModel @Inject constructor(
-    private val getUserUseCase: GetUserUseCase
-) : ViewModel() {
+class UserViewModel @Inject constructor() : ViewModel() {
 
-    private val _uiState = MutableStateFlow(UserState())
-    val uiState: StateFlow<UserState>
-        get() = _uiState
+    private val _searchText = MutableStateFlow("")
+    val searchText = _searchText.asStateFlow()
 
-    fun getUser() {
-        viewModelScope.launch {
-            when (val result = getUserUseCase()) {
-                UserInfoResult.Error -> {
-                    Log.d("UserInfoResult", "error")
-                    _uiState.update { it.copy(isError = true) }
-                }
+    private val _isSearching = MutableStateFlow(false)
+    val isSearching = _isSearching.asStateFlow()
 
-                is UserInfoResult.Success -> {
-                    Log.d("UserInfoResult", "getUser: ${result}")
-                    val response = result.users.map {
-                        with(it) {
-                            UserInfo(
-                                name = name,
-                                company = company,
-                                username = username,
-                                email = email
-                            )
-                        }
-                    }
+    private val _person = MutableStateFlow(getPerson())
 
-                    _uiState.update {
-                        it.copy(userList = response)
-                    }
+    val person = _searchText
+        .debounce(500L)
+        .onEach { _isSearching.update { true } }
+        .combine(_person) { text, persons ->
+            if (text.isBlank()) {
+                persons
+            } else {
+                Log.d("UserViewModel", ": ${_searchText.value}")
+                delay(2000L)
+                persons.filter {
+                    it.doesMatchSearchQuery(text)
                 }
             }
-        }
+        }.onEach { _isSearching.update { false } }.stateIn(
+            viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000L),
+            initialValue = _person.value
+        )
+
+    fun onSearchTextChange(text: String) {
+        _searchText.value = text
     }
 }
