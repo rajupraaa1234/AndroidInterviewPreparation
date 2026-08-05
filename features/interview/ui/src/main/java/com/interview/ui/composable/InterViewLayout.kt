@@ -47,7 +47,7 @@ fun InterViewLayout(viewModel: UserViewModel) {
             LazyColumn {
                 items(screeState.value.userList) {
                     UserItem(it){
-                        viewModel.onItemClick()
+
                     }
                 }
             }

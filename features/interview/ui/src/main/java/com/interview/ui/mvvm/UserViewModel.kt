@@ -1,11 +1,9 @@
 package com.interview.ui.mvvm
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.interview.domain.model.UserInfoResult
 import com.interview.domain.usecase.GetUserUseCase
-import com.interview.domain.usecase.GetUserWithRoomCacheSupportUseCase
 import com.interview.ui.state.UserInfo
 import com.interview.ui.state.UserState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,12 +12,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.collections.copy
 
 @HiltViewModel
 class UserViewModel @Inject constructor(
-    private val getUserUseCase: GetUserUseCase, // Implemented Cache (Not persist the data like - MemoryCache )
-    private val getUserWithRoomCacheSupportUseCase: GetUserWithRoomCacheSupportUseCase
+    private val getUserUseCase: GetUserUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UserState())
@@ -29,17 +25,11 @@ class UserViewModel @Inject constructor(
     fun getUser() {
         setLoadingStatus(true)
         viewModelScope.launch {
-            when (val result = getUserWithRoomCacheSupportUseCase()) {
-                UserInfoResult.Error -> onError()
+            when (val result = getUserUseCase()) {
+                is UserInfoResult.Error -> onError(result.error)
                 is UserInfoResult.Success -> onSuccess(result)
                 UserInfoResult.NoInternet -> onConnectionFailed()
             }
-        }
-    }
-
-    fun onItemClick() {
-        viewModelScope.launch {
-            val result = getUserWithRoomCacheSupportUseCase()
         }
     }
 
@@ -61,7 +51,7 @@ class UserViewModel @Inject constructor(
         setLoadingStatus(false)
     }
 
-    private fun onError() {
+    private fun onError(error: String) {
         _uiState.update { it.copy(isError = true) }
         setLoadingStatus(false)
     }

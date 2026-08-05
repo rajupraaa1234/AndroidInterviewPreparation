@@ -14,7 +14,6 @@ android {
 
 dependencies {
     implementation(project(":network"))
-    implementation(project(":core-cache"))
     implementation(project(":features:interview:domain"))
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
@@ -22,8 +21,4 @@ dependencies {
     testImplementation(libs.mockk)
     implementation(libs.kotlinx.serialization.json)
     testImplementation(libs.coroutines.test)
-
-    ksp(libs.room.compiler)
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
 }
