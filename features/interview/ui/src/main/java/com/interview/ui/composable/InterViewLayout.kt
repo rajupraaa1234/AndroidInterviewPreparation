@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -22,7 +23,10 @@ import com.interview.ui.mvvm.UserViewModel
 import com.interview.ui.state.UserInfo
 
 @Composable
-fun InterViewLayout(viewModel: UserViewModel) {
+fun InterViewLayout(
+    viewModel: UserViewModel,
+    onLoinClick: ()-> Unit
+) {
     val screeState = viewModel.uiState.collectAsState()
     if (screeState.value.isNoInternet) {
         AlertDialog(
@@ -40,16 +44,26 @@ fun InterViewLayout(viewModel: UserViewModel) {
         Loading()
     } else {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LazyColumn {
+            LazyColumn(modifier = Modifier.weight(1f)) {
                 items(screeState.value.userList) {
                     UserItem(it){
 
                     }
                 }
+            }
+
+            Button(
+                onClick = onLoinClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text("Login dynamic feature")
             }
         }
     }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AndroidInterviewPrepration</string>
+    <string name="title_dynamicfeature">login</string>
 </resources>

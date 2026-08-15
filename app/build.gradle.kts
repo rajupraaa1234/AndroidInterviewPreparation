@@ -35,6 +35,7 @@ android {
     buildFeatures {
         compose = true
     }
+    dynamicFeatures += setOf(":features:dynamicfeature")
 }
 
 dependencies {
@@ -55,6 +56,9 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.hilt.android)
+    implementation(libs.play.feature.delivery)
+    implementation(libs.play.feature.delivery.ktx)
+
     ksp(libs.hilt.compiler)
 
     implementation(project(":features:interview:ui"))
