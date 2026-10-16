@@ -17,8 +17,7 @@ class UsersRepositoryImpl @Inject constructor(
     }
 
     private suspend fun getUsersFromNetwork(): UserInfoResult {
-        return when (val result = safeApiCall { apiService.getUsers() }
-        ) {
+        return when (val result = safeApiCall { apiService.getUsers() }) {
             is NetworkResult.Error -> UserInfoResult.Error(result.error.toString())
             is NetworkResult.Success -> mapToUserResult(response = result.data)
         }
