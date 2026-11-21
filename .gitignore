@@ -13,3 +13,14 @@
 .externalNativeBuild
 .cxx
 local.properties
+.idea/
+# Build
+build/
+*/build/
+# Kotlin
+.kotlin/
+
+# Generated
+captures/
+.externalNativeBuild/
+.cxx/
