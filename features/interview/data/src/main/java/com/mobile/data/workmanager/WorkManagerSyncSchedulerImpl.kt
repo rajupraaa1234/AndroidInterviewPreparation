@@ -40,18 +40,4 @@ class WorkManagerSyncSchedulerImpl @Inject constructor(
             )
 
     }
-
-//    override fun scheduleSync() {
-//        Log.d("WorkManagerScheduler", "Enqueueing SyncWorker")
-//
-//        val request = OneTimeWorkRequestBuilder<SyncWorker>()
-//            .build()
-//
-//        WorkManager.getInstance(context)
-//            .enqueueUniqueWork(
-//                "order_sync_work",
-//                ExistingWorkPolicy.REPLACE,
-//                request
-//            )
-//    }
 }
