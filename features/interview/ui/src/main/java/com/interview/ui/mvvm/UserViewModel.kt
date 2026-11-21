@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.interview.domain.model.UserInfoResult
 import com.interview.domain.network.NetworkMonitor
 import com.interview.domain.usecase.GetUserUseCase
+import com.interview.domain.workmanager.SyncScheduler
 import com.interview.ui.state.UserInfo
 import com.interview.ui.state.UserState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase,
-    private val networkMonitor: NetworkMonitor
+    private val networkMonitor: NetworkMonitor,
+    private val syncScheduler: SyncScheduler,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UserState())
@@ -30,6 +32,7 @@ class UserViewModel @Inject constructor(
         viewModelScope.launch {
             networkMonitor.isOnline.collectLatest { connected ->
                 if (connected) {
+                    syncScheduler.scheduleSync()
                     when (val result = getUserUseCase()) {
                         UserInfoResult.Error -> onApiFailed()
                         is UserInfoResult.Success -> onFetchUserSuccess(result)

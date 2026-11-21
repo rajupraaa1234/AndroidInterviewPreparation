@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation(platform(libs.compose.bom))
+    implementation(libs.androidx.hilt.work)
     androidTestImplementation(platform(libs.compose.bom))
 
     implementation(libs.androidx.activity.compose)
@@ -54,6 +55,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.work.manager)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 

@@ -17,9 +17,11 @@ android {
 dependencies {
     implementation(project(":network"))
     implementation(project(":features:interview:domain"))
+    implementation(libs.androidx.hilt.common)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     testImplementation(libs.androidx.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.coroutines.test)
+    implementation(libs.work.manager)
 }
